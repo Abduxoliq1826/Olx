@@ -1,0 +1,56 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+<div class="row" style="margin:30px">
+    {% for i in about.photo.all %}
+    <img width="300px" src="{{ i.photo.url }}" alt="binnasa">
+    {% endfor %}
+</div>
+    <div class="row" style="text-align:center;">
+        <h1 class=" col-6" style="text-align:center; color:#354052;" >Owner</h1>
+        <h1 class="col-6" style="text-align:center; color:#354052;">{{ about.owner }}</h1>
+        <hr style="width:100%;text-align:left;margin-left:0 width:5px; height:2px;border-width:5px;color:blue;background-color:#354052" >
+    </div>
+    <div class="row" style="text-align:center; background-color:white">
+            <h1 class=" col-6" style="text-align:center; color:#354052;" >Name</h1>
+        <h1 class="col-6" style="text-align:center; color:#354052;">{{ about.name }}</h1>
+        <hr style="width:100%;text-align:left;margin-left:0 width:5px; height:2px;border-width:5px;color:yellow;background-color:#354052" >
+    </div>
+    <div class="row" style="text-align:center; background-color:white">
+        <h1 class=" col-6" style="text-align:center; color:#354052;" >Region</h1>
+        <h1 class="col-6" style="text-align:center; color:#354052;">{{ about.region.name }}</h1>
+        <hr style="width:100%;text-align:left;margin-left:0 width:5px; height:2px;border-width:5px;color:red;background-color:#354052" >
+    </div>
+    <div class="row" style="text-align:center; background-color:white">
+        <h1 class=" col-6" style="text-align:center; color:#354052;" >Category</h1>
+        <h1 class="col-6" style="text-align:center; color:#354052;">{{ about.category.name }}</h1>
+        <hr style="width:100%;text-align:left;margin-left:0 width:5px; height:2px;border-width:5px;color:gray;background-color:#354052" >
+    </div>
+    <div class="row" style="text-align:center; background-color:white">
+        <h1 class=" col-6" style="text-align:center; color:#354052;" >Date</h1>
+        <h1 class="col-6" style="text-align:center; color:#354052;">{{ about.date }}</h1>
+        <hr style="width:100%;text-align:left;margin-left:0 width:5px; height:2px;border-width:5px;background-color:#354052" >
+    </div>
+   <div class="row" style="text-align:center; background-color:white">
+        <h1 class=" col-6" style="text-align:center; color:#354052;" >Decription</h1>
+        <h1 class="col-6" style="text-align:center; color:#354052;">{{ about.description }}</h1>
+        <hr style="width:100%;text-align:left;margin-left:0 width:5px; height:2px;border-width:5px;background-color:#354052" >
+    </div>
+
+    <div class="row">
+        <form action="{% url 'accept' about.id %}" class="col-6"  method="post">
+            {% csrf_token %}
+            <button type="submit"  class="btn btn-primary form-control btn-lg" style="padding-bottom:30px;">Accept</button>
+
+        </form>
+        <form action="{% url 'reject' about.id %}"  class="col-6" method="post">
+            {% csrf_token %}
+            <button type="submit"  class="form-control btn btn-primary btn-lg" style="padding-bottom:30px;">Reject</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+{% block script %}
+{% endblock script %}

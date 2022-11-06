@@ -1,0 +1,52 @@
+﻿{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Category</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="font-weight-normal col-md-6"><h1>Name: {{region.name}}</h1></div>
+                    <h1>Distric:</h1>
+                    {% for i in region.distirc.all%}
+                    <div class="font-weight-normal col-md-6"><h1> {{i.name}}</h1></div>
+                    {%endfor%}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Category Update</h4>
+                </div>
+                <form action="{%url 'single_region' region.id%}" method="post"  enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Name</label><input name="name" type="text" class="form-control" placeholder="first name" value=""></div>
+                        <div class="col-md-6">
+						<label for="languages">Choose a Distric:</label>
+						<select class="form-control"  id="languages" multiple="multiple" name="category" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+							{%for i in distric%}
+							<option value="{{i.id}}">{{i.name}}</option>
+							{%endfor%}
+						</select>
+
+    					</div>
+                    </div>
+
+                    <div class="mt-5 text-center"><button class="btn btn-primary btn-lg profile-button" type="submit">Save Category</button></div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}
+{% block script %}
+{% endblock script %}
