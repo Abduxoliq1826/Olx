@@ -15,11 +15,15 @@
 										{% for i in info %}
 										<tr>
 											<td class="d-none d-xl-table-cell">{{i.company_name}}</td>
+											{%if i.logo%}
 											<td class="d-none d-md-table-cell"><img src="{{i.logo.url}}" style="border-radius:50%;" height="100px" width="100px" alt="ok" ></td>
+											{%else%}
+											<td class="d-none d-md-table-cell"><img src="" style="border-radius:50%;" height="100px" width="100px" alt="ok" ></td>
+											{%endif%}
 											<td class="d-none d-md-table-cell">{{i.description}}</td>
 											<td class="d-none d-md-table-cell">{{i.googleplay}}</td>
 											<td class="d-none d-md-table-cell">{{i.appstore}}</td>
-											<td class="d-none d-md-table-cell"><a href="{% url 'delete_info' i.id%}">Delete</a></td>
+											<td class="d-none d-md-table-cell"><a href="{% url 'delete_info' i.id %}">Delete</a></td>
 										</tr>
 										{% endfor %}
 									</tbody>

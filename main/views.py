@@ -171,7 +171,6 @@ def Users(request,pk):
 
 @login_required(login_url='login')
 def InformationViews(request):
-
     if request.method == 'GET':
         context = {
             'info': Information.objects.last(),
@@ -183,8 +182,7 @@ def InformationViews(request):
         description = request.POST.get('description')
         googleplay = request.POST.get('googleplay')
         appstore = request.POST.get('appstore')
-        if company_name == "" and description == "" and googleplay == "" and appstore == "" and logo == None:
-
+        if company_name == "" and description == "" and googleplay == "" and appstore == "" and logo == "":
             context = {
                 'info': Information.objects.last(),
             }
@@ -203,7 +201,7 @@ def InformationViews(request):
 def DeleteInfo(request, pk):
     info = Information.objects.get(id=pk)
     info.delete()
-    return redirect('infos ')
+    return redirect('infos')
 
 
 @login_required(login_url=login)
@@ -246,7 +244,7 @@ def UpdateUser(request):
     if user is not None:
         if request.method == "POST":
             username = request.POST.get('username')
-            image = request.FILES['image']
+            image = request.FILES.get('image')
             last_password = request.POST.get('last_password')
             new_password = request.POST.get('new_password')
             restartpassword = request.POST.get('restartpassword')
@@ -282,12 +280,18 @@ def AddCategory(request):
         }
         return render(request, 'category.html', context)
     name = request.POST.get('name')
-    photo = request.FILES['photo']
-    Category.objects.create(name=name, photo=photo)
-    context = {
-        'category': Category.objects.all()
-    }
-    return render(request, 'category.html', context)
+    photo = request.FILES.get('photo')
+    if name=="" and photo=="":
+        Category.objects.create(name=name, photo=photo)
+        context = {
+            'category': Category.objects.all()
+        }
+        return render(request, 'category.html', context)
+    else:
+        context = {
+            'category': Category.objects.all()
+        }
+        return render(request, 'category.html', context)
 
 
 @login_required(login_url=login)
@@ -301,15 +305,22 @@ def Regions(request):
     elif request.method == 'POST':
         category = request.POST.getlist('category')
         name = request.POST.get('name')
-        region = Region.objects.create(name=name)
-        for i in category:
-            region.distirc.add(Distirc.objects.get(id=i))
-        region.save()
-        context = {
-            'region': Region.objects.all(),
-            'distric': Distirc.objects.all()
-        }
-        return render(request, 'region.html', context)
+        if category == [] and name == "" :
+            context = {
+                'region': Region.objects.all(),
+                'distric': Distirc.objects.all()
+            }
+            return render(request, 'region.html', context)
+        else:
+            region = Region.objects.create(name=name)
+            for i in category:
+                region.distirc.add(Distirc.objects.get(id=i))
+            region.save()
+            context = {
+                'region': Region.objects.all(),
+                'distric': Distirc.objects.all()
+            }
+            return render(request, 'region.html', context)
 
 
 @login_required(login_url=login)
@@ -320,13 +331,20 @@ def SubCategory(request):
             'category': Category.objects.all()
         }
         return render(request, 'subcategory.html', context)
-    name = request.POST.get('name')
-    category = request.POST.get('category')
-    Subcategory.objects.create(name=name, category_id=category)
-    context = {
-        'subcategory': Subcategory.objects.all()
-    }
-    return render(request, 'subcategory.html', context)
+    elif request.method == "POST":
+        name = request.POST.get('name')
+        category = request.POST.get('category')
+        if name == "" and category == "":
+            context = {
+                'subcategory': Subcategory.objects.all()
+            }
+            return render(request, 'subcategory.html', context)
+        else:
+            Subcategory.objects.create(name = name, category_id = category)
+            context = {
+                'subcategory': Subcategory.objects.all()
+            }
+            return render(request, 'subcategory.html', context)
 
 
 @login_required(login_url=login)
@@ -338,15 +356,21 @@ def SingleCategory(request,pk):
         return render(request, 'singlecategory.html', context)
     elif request.method == 'POST':
         name = request.POST.get('name')
-        photo = request.FILES['photo']
-        category = Category.objects.get(id=pk)
-        category.name = name
-        category.photo = photo
-        category.save()
-        context = {
-            'category': category,
-        }
-        return render(request, 'singlecategory.html', context)
+        photo = request.FILES.get('photo')
+        if name=="" and photo=="":
+            context = {
+                'category': Category.object.get(id=pk),
+            }
+            return render(request, 'singlecategory.html', context)
+        else:
+            category = Category.objects.get(id=pk)
+            category.name = name
+            category.photo = photo
+            category.save()
+            context = {
+                'category': category,
+            }
+            return render(request, 'singlecategory.html', context)
 
 
 @login_required(login_url=login)
@@ -367,15 +391,23 @@ def SingleSubCategory(request,pk):
     elif request.method == 'POST':
         name = request.POST.get('name')
         category = request.POST.get('category')
-        subcategory = Subcategory.objects.get(id=pk)
-        subcategory.name = name
-        subcategory.category_id = category
-        subcategory.save()
-        context = {
-            'subcategory': subcategory,
-            'category': Category.objects.all(),
-        }
-        return render(request, 'singlesubcategory.html', context)
+        if name=="" and category=="":
+            subcategory = Subcategory.objects.get(id=pk)
+            context = {
+                'subcategory': subcategory,
+                'category': Category.objects.all(),
+            }
+            return render(request, 'singlesubcategory.html', context)
+        else:
+            subcategory = Subcategory.objects.get(id=pk)
+            subcategory.name = name
+            subcategory.category_id = category
+            subcategory.save()
+            context = {
+                'subcategory': subcategory,
+                'category': Category.objects.all(),
+            }
+            return render(request, 'singlesubcategory.html', context)
 
 
 @login_required(login_url=login)
@@ -397,16 +429,24 @@ def SingleRegion(request,pk):
     elif request.method == 'POST':
         name = request.POST.get('name')
         distric = request.POST.getlist('dictric')
-        region = Region.objects.get(id=pk)
-        region.name = name
-        for i in distric:
-            region.distirc.add(Distirc.objects.get(id=i))
-        region.save()
-        context = {
-            'region': region,
-            'distric': Distirc.objects.all(),
-        }
-        return render(request, 'single-region.html', context)
+        if name=="" and distric==[]:
+            region = Region.objects.get(id=pk)
+            context = {
+                'region': region,
+                'distric': Distirc.objects.all(),
+            }
+            return render(request, 'single-region.html', context)
+        else:
+            region = Region.objects.get(id=pk)
+            region.name = name
+            for i in distric:
+                region.distirc.add(Distirc.objects.get(id=i))
+            region.save()
+            context = {
+                'region': region,
+                'distric': Distirc.objects.all(),
+            }
+            return render(request, 'single-region.html', context)
 
 
 
@@ -422,11 +462,17 @@ def DeleteRegion(request, pk):
 def Help_q_Create(request):
     if request.method=='POST':
         question = request.POST.get('question')
-        a = Helps_q.objects.create(question=question)
-    context = {
-        'question' : Helps_q.objects.all().order_by('-id')
-    }
-    return render(request, 'helps_q.html', context)
+        if question == "":
+            context = {
+                'question': Helps_q.objects.all().order_by('-id')
+            }
+            return render(request, 'helps_q.html', context)
+        else:
+            Helps_q.objects.create(question=question)
+            context = {
+                'question' : Helps_q.objects.all().order_by('-id')
+            }
+            return render(request, 'helps_q.html', context)
 
 def Delete_hq(request, pk):
     Helps_q.objects.get(id=pk).delete()
@@ -440,13 +486,19 @@ def Update_hq(request, pk):
         return render(request, 'single_hq.html', context)
     elif request.method == 'POST':
         question = request.POST.get('question')
-        hq = Helps_q.objects.get(id=pk)
-        hq.question=question
-        hq.save()
-    context = {
-        'info': Helps_q.objects.get(id=pk),
-    }
-    return render(request, 'single_hq.html', context)
+        if question == "":
+            context = {
+                'info': Helps_q.objects.get(id=pk),
+            }
+            return render(request, 'single_hq.html', context)
+        else:
+            hq = Helps_q.objects.get(id=pk)
+            hq.question=question
+            hq.save()
+            context = {
+                'info': Helps_q.objects.get(id=pk),
+            }
+            return render(request, 'single_hq.html', context)
 
 
 
@@ -462,12 +514,19 @@ def Help_a_Create(request):
     elif request.method=='POST':
         question = request.POST.get('question')
         answer = request.POST.get('answer')
-        a = Helps_a.objects.create(answer=answer, question_id=question)
-        context = {
-            'answer' : Helps_a.objects.all().order_by('-id'),
-            'question' : Helps_q.objects.all().order_by('-id'),
-        }
-        return render(request, 'helps_a.html', context)
+        if question=="" and answer=="":
+            context = {
+                'answer': Helps_a.objects.all().order_by('-id'),
+                'question': Helps_q.objects.all().order_by('-id'),
+            }
+            return render(request, 'helps_a.html', context)
+        else:
+            Helps_a.objects.create(answer=answer, question_id=question)
+            context = {
+                'answer' : Helps_a.objects.all().order_by('-id'),
+                'question' : Helps_q.objects.all().order_by('-id'),
+            }
+            return render(request, 'helps_a.html', context)
 
 
 def Delete_ha(request, pk):
@@ -479,15 +538,22 @@ def Update_ha(request, pk):
     if request.method == 'POST':
         question = request.POST.get('question')
         answer = request.POST.get('answer')
-        ha = Helps_a.objects.get(id=pk)
-        ha.question_id=question
-        ha.answer=answer
-        ha.save()
-    context = {
-        'info' : Helps_a.objects.get(id=pk),
-        'question' : Helps_q.objects.all().order_by('-id'),
-    }
-    return render(request, 'single_ha.html', context)
+        if question=="" and answer=="":
+            context = {
+                'info': Helps_a.objects.get(id=pk),
+                'question': Helps_q.objects.all().order_by('-id'),
+            }
+            return render(request, 'single_ha.html', context)
+        else:
+            ha = Helps_a.objects.get(id=pk)
+            ha.question_id=question
+            ha.answer=answer
+            ha.save()
+            context = {
+                'info' : Helps_a.objects.get(id=pk),
+                'question' : Helps_q.objects.all().order_by('-id'),
+            }
+            return render(request, 'single_ha.html', context)
 
 def handler404(request, *args, **argv):
     return render(request, 'pages-404.html')
