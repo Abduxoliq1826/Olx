@@ -1,5 +1,4 @@
 from datetime import date
-from tkinter.messagebox import QUESTION
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth import login, logout, authenticate
@@ -460,7 +459,7 @@ def DeleteRegion(request, pk):
 
 @login_required(login_url=login)
 def Help_q_Create(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         question = request.POST.get('question')
         if question == "":
             context = {
@@ -473,6 +472,8 @@ def Help_q_Create(request):
                 'question' : Helps_q.objects.all().order_by('-id')
             }
             return render(request, 'helps_q.html', context)
+    else:
+        return render(request, 'helps_q.html')
 
 def Delete_hq(request, pk):
     Helps_q.objects.get(id=pk).delete()

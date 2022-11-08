@@ -8,10 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/infos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/infos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/singlesubcategory.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/singlesubcategory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/subcategory.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/subcategory.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/helps_a.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/helps_a.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/sort.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sort.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

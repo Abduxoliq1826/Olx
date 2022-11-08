@@ -79,7 +79,7 @@
 				<div class="row mt-4">
 					<label for="question">Choose a Question:</label>
 					<select class="form-control"  id="question" name="question" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-						  <option selected>Open this select Question</option>
+						  <option value="" selected>Open this select Question</option>
 						{%for i in question%}
 						  <option value="{{i.id}}">{{i.question}}</option>
 						{%endfor%}
